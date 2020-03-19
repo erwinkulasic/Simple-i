@@ -25,8 +25,12 @@ module.exports.parseArgs = (args, buffer = {}) => {
             if(e.includes("@return") || e.includes("@element")) {
                 const arr = e.split(':');
                 if(arr[0] === "@return") {
-                    var val = buffer.returnArr.find(i => i.name === getTask(arr[1]).taskName);
-                    newParameters.push(val.value)
+                    try {
+                        var val = buffer.returnArr.find(i => i.name === getTask(arr[1]).taskName);
+                        newParameters.push(val.value)
+                    } catch(err) {
+                        buffer.errors.push({ error: err });
+                    }
                 } else if(arr[0] === "@element") {
                     newParameters.push("@element")
                 }

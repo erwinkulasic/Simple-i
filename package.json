@@ -1,10 +1,12 @@
 {
 	"name": "simple-i",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "This is a wonderful way to clean up your code and helps you avoid errors.",
 	"main": "index.js",
 	"scripts": {
-		"test": "nodemon ."
+		"test": "nodemon .",
+		"onGithub": "git add . && git commit -m :milky_way: && git push -u origin master",
+    	"prod": "npm run onGithub && npm publish"
 	},
 	"author": "VerTical",
 	"license": "MIT",
