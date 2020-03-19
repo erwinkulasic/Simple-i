@@ -47,7 +47,7 @@ module.exports.run = (options = { folder: 'dist' }) => {
                     params = parseArgs(e.args, { returnArr, errors });
                 }
                 var getPath = getFunc.path.split('\\')[1].split('.')[0];
-                var task = require(`../${options.folder}/${getPath}`);
+                var task = require(`${options.folder}/${getPath}`);
                 const _action_ = () => {
                     if (!getFunc.returnsValue) {
                         try {
