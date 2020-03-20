@@ -12,13 +12,13 @@ module.exports.i = (taskName, args = [], condition = undefined, eachElements = u
     return this;
 }
 
-module.exports.run = (options = { folder: 'dist' }) => {
+module.exports.run = (options = { folder: 'dist', errorCallback: undefined }) => {
 
     returnArr = [];
     buffer = [];
     errors = [];
 
-    const _PATH = path.join(options.folder);
+    const _PATH = path.join("../../../" + options.folder);
 
     const _parse = async () => {
         const raw = getFiles(_PATH, 'js');
@@ -48,8 +48,12 @@ module.exports.run = (options = { folder: 'dist' }) => {
                 if (e.args && e.args.length) {
                     params = parseArgs(e.args, { returnArr, errors });
                 }
+                try {
                 var pa =  __dirname + "\\" + getFunc.path.split('.')[0] || getFunc.path.split('.')[0]
                 var task = require(`${pa}`);
+                } catch (err) {
+                    errors.push({ error: err })
+                }
                 const _action_ = () => {
                     if (!getFunc.returnsValue) {
                         try {
@@ -75,6 +79,19 @@ module.exports.run = (options = { folder: 'dist' }) => {
                         }
                     }
                 }
+
+                if(Array.isArray(errors) && errors.length) {
+                    if(errorCallback !== undefined) {
+                        for(let err in errors) {
+                            errorCallback(err);
+                        }
+                    } else {
+                        for(let err in errors) {
+                            console.error(err);
+                        }
+                    }
+                }
+
                 if (e.condition && e.condition !== undefined) {
                     _action_();
                 } else if (e.condition === undefined) {
