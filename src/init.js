@@ -1,6 +1,7 @@
 const { push, execute, parseArgs, clear } = require('./invoke');
 const { getFiles } = require('./filestream');
 const { parse } = require('./parser');
+const path = require('path');
 
 var returnArr = [];
 var buffer = [];
@@ -17,11 +18,12 @@ module.exports.run = (options = { folder: 'dist' }) => {
     buffer = [];
     errors = [];
 
+    const _PATH = path.join(options.folder);
+
     const _parse = async () => {
-        const raw = getFiles(options)
+        const raw = getFiles(_PATH, 'js');
         await raw.forEach(data => {
-            const tree = parse(data.result);
-            const path = data.p;
+            const tree = parse(data.src);
             tree.body.forEach(async func => {
                 var name = undefined;
                 var returnsValue = false;
@@ -33,7 +35,7 @@ module.exports.run = (options = { folder: 'dist' }) => {
                         returnsValue = true;
                     }
                 }
-                await buffer.push({ path, name, returnsValue })
+                await buffer.push({ path: data.filePath, name, returnsValue })
             })
         })
     }
@@ -46,8 +48,8 @@ module.exports.run = (options = { folder: 'dist' }) => {
                 if (e.args && e.args.length) {
                     params = parseArgs(e.args, { returnArr, errors });
                 }
-                var getPath = getFunc.path.split('\\')[1].split('.')[0];
-                var task = require(`${require('path').join(`${options.folder}/`)}${getPath}`);
+                var pa =  __dirname + "\\" + getFunc.path.split('.')[0] || getFunc.path.split('.')[0]
+                var task = require(`${pa}`);
                 const _action_ = () => {
                     if (!getFunc.returnsValue) {
                         try {
