@@ -18,7 +18,7 @@ module.exports.run = (options = { folder: 'dist', errorCallback: undefined }) =>
     buffer = [];
     errors = [];
 
-    const _PATH = path.join("../../../" + options.folder);
+    const _PATH = path.join(__dirname, "../../../" + options.folder);
 
     const _parse = async () => {
         const raw = getFiles(_PATH, 'js');
