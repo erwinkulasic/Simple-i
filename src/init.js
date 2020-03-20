@@ -81,9 +81,9 @@ module.exports.run = (options = { folder: 'dist', errorCallback: undefined }) =>
                 }
 
                 if(Array.isArray(errors) && errors.length) {
-                    if(errorCallback !== undefined) {
+                    if(options.errorCallback !== undefined) {
                         for(let err in errors) {
-                            errorCallback(err);
+                            options.errorCallback(err);
                         }
                     } else {
                         for(let err in errors) {

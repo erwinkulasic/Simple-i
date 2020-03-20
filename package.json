@@ -1,6 +1,6 @@
 {
 	"name": "simple-i",
-	"version": "1.0.6",
+	"version": "1.0.7",
 	"description": "This is a wonderful way to clean up your code and helps you avoid errors.",
 	"main": "index.js",
 	"scripts": {
