@@ -2,6 +2,7 @@ const { push, execute, parseArgs, clear } = require('./invoke');
 const { getFiles } = require('./filestream');
 const { parse } = require('./parser');
 const path = require('path');
+const colors = require('colors');
 
 var returnArr = [];
 var buffer = [];
@@ -48,16 +49,17 @@ module.exports.run = (options = { folder: 'dist', errorCallback: undefined }) =>
                 if (e.args && e.args.length) {
                     params = parseArgs(e.args, { returnArr, errors });
                 }
+                var task = null;
                 try {
-                var pa =  __dirname + "\\" + getFunc.path.split('.')[0] || getFunc.path.split('.')[0]
-                var task = require(`${pa}`);
+                    var pa = __dirname + "\\" + getFunc.path.split('.')[0] || getFunc.path.split('.')[0]
+                    task = require(`${pa}`);
                 } catch (err) {
                     errors.push({ error: err })
                 }
                 const _action_ = () => {
                     if (!getFunc.returnsValue) {
                         try {
-                            if(e.eachElements && e.eachElements !== undefined) {
+                            if (e.eachElements && e.eachElements !== undefined) {
                                 let pos = params.indexOf('@element');
                                 e.eachElements.forEach(getData => {
                                     var newEachParams = params;
@@ -80,14 +82,14 @@ module.exports.run = (options = { folder: 'dist', errorCallback: undefined }) =>
                     }
                 }
 
-                if(Array.isArray(errors) && errors.length) {
-                    if(options.errorCallback !== undefined) {
-                        for(let err in errors) {
+                if (Array.isArray(errors) && errors.length) {
+                    if (options.errorCallback !== undefined) {
+                        for (let err in errors) {
                             options.errorCallback(err);
                         }
                     } else {
-                        for(let err in errors) {
-                            console.error(err);
+                        for (let err in errors) {
+                            console.log(colors.red(err));
                         }
                     }
                 }

@@ -1,17 +1,18 @@
 {
 	"name": "simple-i",
-	"version": "1.0.7",
+	"version": "1.0.8",
 	"description": "This is a wonderful way to clean up your code and helps you avoid errors.",
 	"main": "index.js",
 	"scripts": {
 		"test": "nodemon .",
 		"onGithub": "git add . && git commit -m :milky_way: && git push -u origin master",
-    	"prod": "npm run onGithub && npm publish"
+		"prod": "npm run onGithub && npm publish"
 	},
 	"author": "VerTical",
 	"license": "MIT",
 	"dependencies": {
-		"acorn": "^7.1.1"
+		"acorn": "^7.1.1",
+		"colors": "^1.4.0"
 	},
 	"devDependencies": {
 		"nodemon": "^2.0.2"
