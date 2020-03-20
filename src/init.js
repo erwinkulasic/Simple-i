@@ -4,23 +4,22 @@ const { parse } = require('./parser');
 const path = require('path');
 const colors = require('colors');
 
+var error = colors.red;
+
 var returnArr = [];
 var buffer = [];
-var errors = [];
 
 module.exports.i = (taskName, args = [], condition = undefined, eachElements = undefined) => {
     push({ taskName, args, condition, eachElements })
     return this;
 }
 
-module.exports.run = (options = { folder: 'dist', errorCallback: undefined }) => {
-
+module.exports.run = (options = { folder: 'dist' }) => {
     returnArr = [];
     buffer = [];
-    errors = [];
 
-    const _PATH = path.join(__dirname, "..\\..\\..\\" + options.folder);
-
+    //const _PATH = path.join(__dirname, "..\\" + options.folder); // DEVELOPMENT
+    const _PATH = path.join(__dirname, "..\\..\\..\\" + options.folder); //PUBLIC
     const _parse = async () => {
         const raw = getFiles(_PATH, 'js');
         await raw.forEach(data => {
@@ -47,53 +46,27 @@ module.exports.run = (options = { folder: 'dist', errorCallback: undefined }) =>
             if (getFunc) {
                 let params = [];
                 if (e.args && e.args.length) {
-                    params = parseArgs(e.args, { returnArr, errors });
+                    params = parseArgs(e.args, { returnArr });
                 }
-                var task = null;
-                try {
-                    var pa = __dirname + "\\" + getFunc.path.split('.')[0] || getFunc.path.split('.')[0]
-                    task = require(`${pa}`);
-                } catch (err) {
-                    errors.push({ error: err })
-                }
+                var pa = getFunc.path.split('.')[0] || getFunc.path.split('.')[0]
+                var task = require(`${pa}`);
                 const _action_ = () => {
                     if (!getFunc.returnsValue) {
-                        try {
-                            if (e.eachElements && e.eachElements !== undefined) {
-                                let pos = params.indexOf('@element');
-                                e.eachElements.forEach(getData => {
-                                    var newEachParams = params;
-                                    newEachParams[pos] = getData;
-                                    task[e.taskName](...newEachParams)
-                                })
-                            } else if (e.eachElements === undefined) {
-                                task[e.taskName](...params)
-                            }
-                        } catch (err) {
-                            errors.push({ error: err })
+                        if (e.eachElements && e.eachElements !== undefined) {
+                            let pos = params.indexOf('@element');
+                            e.eachElements.forEach(getData => {
+                                var newEachParams = params;
+                                newEachParams[pos] = getData;
+                                task[e.taskName](...newEachParams)
+                            })
+                        } else if (e.eachElements === undefined) {
+                            task[e.taskName](...params)
                         }
                     } else {
-                        try {
-                            const t = task[e.taskName](...params);
-                            returnArr.push({ value: t, name: e.taskName });
-                        } catch (err) {
-                            errors.push({ error: err })
-                        }
+                        const t = task[e.taskName](...params);
+                        returnArr.push({ value: t, name: e.taskName });
                     }
                 }
-
-                if (Array.isArray(errors) && errors.length) {
-                    if (options.errorCallback !== undefined) {
-                        for (let err in errors) {
-                            options.errorCallback(err);
-                        }
-                    } else {
-                        for (let err in errors) {
-                            console.log(colors.red(err));
-                        }
-                    }
-                }
-
                 if (e.condition && e.condition !== undefined) {
                     _action_();
                 } else if (e.condition === undefined) {
@@ -107,6 +80,8 @@ module.exports.run = (options = { folder: 'dist', errorCallback: undefined }) =>
         let response = await new Promise(function (resolve, reject) {
             _parse().then(resolve, reject);
             _invokeScript().then(resolve, reject);
-        });
+        }).catch(err => {
+            console.log(error({ message: err.message }))
+        })
     })();
 }

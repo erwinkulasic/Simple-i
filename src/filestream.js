@@ -5,7 +5,6 @@ module.exports.getFiles = (folder, fileExtension) => {
     folder = folder || __dirname;
     fileExtension = fileExtension || '';
     files = [];
-
     ((inPath, callback) => {
         fs.readdirSync(inPath).forEach((name) => {
             var filePath = path.join(inPath, name);
@@ -20,8 +19,7 @@ module.exports.getFiles = (folder, fileExtension) => {
         if (filePath.includes(('.' + fileExtension))) {
             const src = fs.readFileSync(filePath, 'utf8');
             files.push({ src, filePath });
-        }   
+        }
     });
-
     return files;
 }

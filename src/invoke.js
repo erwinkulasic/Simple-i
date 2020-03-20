@@ -7,7 +7,7 @@ module.exports.push = async i_item => {
 }
 
 module.exports.execute = task => {
-    taskArray.forEach(async e =>  await task(e) );
+    taskArray.forEach(async e => await task(e));
 }
 
 module.exports.clear = () => {
@@ -20,18 +20,14 @@ const getTask = (name) => {
 
 module.exports.parseArgs = (args, buffer = {}) => {
     var newParameters = [];
-    args.forEach( e => {
-        if(typeof e === "string") {
-            if(e.includes("@return") || e.includes("@element")) {
+    args.forEach(e => {
+        if (typeof e === "string") {
+            if (e.includes("@return") || e.includes("@element")) {
                 const arr = e.split(':');
-                if(arr[0] === "@return") {
-                    try {
-                        var val = buffer.returnArr.find(i => i.name === getTask(arr[1]).taskName);
-                        newParameters.push(val.value)
-                    } catch(err) {
-                        buffer.errors.push({ error: err });
-                    }
-                } else if(arr[0] === "@element") {
+                if (arr[0] === "@return") {
+                    var val = buffer.returnArr.find(i => i.name === getTask(arr[1]).taskName);
+                    newParameters.push(val.value)
+                } else if (arr[0] === "@element") {
                     newParameters.push("@element")
                 }
             } else {

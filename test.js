@@ -1,1 +1,1 @@
-require('./index').i("Test").run();
+require('./index').i("Destroy").run({ folder: "dist" });
