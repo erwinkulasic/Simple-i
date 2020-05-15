@@ -51,7 +51,7 @@ exports.Hello = (res) => {
 
 ## run( < options > )
  
-## i( <function_name>, <arguments>, <condition>, <array> )
+## i( < function_name >, < arguments >, < condition >, < array > )
 
 # License
 
