@@ -1,7 +1,10 @@
 ﻿
+[![npm version](https://badge.fury.io/js/simple-i.svg)](https://badge.fury.io/js/simple-i)
 # :milky_way: Simple-i
 
 This is a wonderful way to clean up your code and helps you avoid errors.
+
+[![NPM](https://nodei.co/npm/simple-i.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/simple-i/)
 
 # installation
 
@@ -25,7 +28,7 @@ Invoke1
     .run({ folder: 'dist' });
 ```
 
-/dist/basic.js
+/dist/bla.js
 ```javascript
 exports.num1 = () => {
     return 50;
@@ -48,7 +51,7 @@ exports.Hello = (res) => {
 
 ## run( < options > )
  
-## i( <function_name>, < arguments >, < condition >, < eachElements > )
+## i( <function_name>, <arguments>, <condition>, <array> )
 
 # License
 

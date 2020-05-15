@@ -1,10 +1,10 @@
 {
 	"name": "simple-i",
-	"version": "1.0.9",
+	"version": "1.0.10",
 	"description": "This is a wonderful way to clean up your code and helps you avoid errors.",
 	"main": "index.js",
 	"scripts": {
-		"test": "nodemon .",
+		"test": "nodemon ./test.js",
 		"onGithub": "git add . && git commit -m :milky_way: && git push -u origin master",
 		"prod": "npm run onGithub && npm publish"
 	},
@@ -22,7 +22,6 @@
 		"core",
 		"simple",
 		"easy",
-		"iot",
 		"future"
 	],
 	"homepage": "https://github.com/Tusta/simple-i/blob/master/README.md"

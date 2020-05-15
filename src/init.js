@@ -1,3 +1,4 @@
+'use strict';
 const { push, execute, parseArgs, clear } = require('./invoke');
 const { getFiles } = require('./filestream');
 const { parse } = require('./parser');
@@ -18,8 +19,8 @@ module.exports.run = (options = { folder: 'dist' }) => {
     returnArr = [];
     buffer = [];
 
-    //const _PATH = path.join(__dirname, "..\\" + options.folder); // DEVELOPMENT
-    const _PATH = path.join(__dirname, "..\\..\\..\\" + options.folder); //PUBLIC
+    const _PATH = path.join(__dirname, "..\\" + options.folder); // DEVELOPMENT
+    //const _PATH = path.join(__dirname, "..\\..\\..\\" + options.folder); //PUBLIC
     const _parse = async () => {
         const raw = getFiles(_PATH, 'js');
         await raw.forEach(data => {
