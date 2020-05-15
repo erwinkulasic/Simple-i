@@ -19,8 +19,8 @@ module.exports.run = (options = { folder: 'dist' }) => {
     returnArr = [];
     buffer = [];
 
-    const _PATH = path.join(__dirname, "..\\" + options.folder); // DEVELOPMENT
-    //const _PATH = path.join(__dirname, "..\\..\\..\\" + options.folder); //PUBLIC
+    //const _PATH = path.join(__dirname, "..\\" + options.folder); // DEVELOPMENT
+    const _PATH = path.join(__dirname, "..\\..\\..\\" + options.folder); //PUBLIC
     const _parse = async () => {
         const raw = getFiles(_PATH, 'js');
         await raw.forEach(data => {
