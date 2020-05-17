@@ -1,5 +1,10 @@
 const tes = require('./index')
 
-tes.i("Test")
-    .i('result1', [Math.PI * 2])
+require("./index")
+    .i("A", [100 / 2 * 70 || 60])
+    .i("A1", ["lol: ", "@element"], true, [])
+    .run({ folder: "dist" });
+
+    require("./index")
+    .i("A", ["LOL"])
     .run({ folder: "dist" });

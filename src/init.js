@@ -78,9 +78,10 @@ module.exports.run = (options = { folder: 'dist' }) => {
     }
 
     (async () => {
-        let response = await new Promise(function (resolve, reject) {
+        await new Promise(function (resolve, reject) {
             _parse().then(resolve, reject);
             _invokeScript().then(resolve, reject);
+            clear();
         }).catch(err => {
             console.log(error({ message: err.message }))
         })
